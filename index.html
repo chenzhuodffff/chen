@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>❤️ 李闪，这是给你的 ❤️</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  font-family: 'Georgia', 'Noto Serif SC', serif;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ===== 星星背景 ===== */
+.stars {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+}
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle var(--dur) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+
+/* ===== 浮动爱心 ===== */
+.hearts-container {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 1;
+}
+.floating-heart {
+  position: absolute;
+  font-size: var(--size);
+  animation: floatUp var(--dur) linear infinite;
+  animation-delay: var(--delay);
+  left: var(--left);
+  opacity: 0;
+  filter: blur(0.5px);
+}
+@keyframes floatUp {
+  0% { bottom: -10%; opacity: 0; transform: translateX(0) rotate(0deg); }
+  10% { opacity: 0.8; }
+  80% { opacity: 0.4; }
+  100% { bottom: 110%; opacity: 0; transform: translateX(var(--drift)) rotate(360deg); }
+}
+
+/* ===== 主内容区 ===== */
+.main-content {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column; align-items: center;
+  min-height: 100vh; padding: 20px;
+}
+
+/* ===== 顶部大字 ===== */
+.hero {
+  text-align: center; margin-top: 12vh;
+  animation: fadeInDown 1.5s ease-out;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  background: linear-gradient(135deg, #ff6b9d, #c44dff, #6ec6ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  margin-bottom: 10px;
+  letter-spacing: 4px;
+}
+.hero .subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 8px;
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 打字机效果 ===== */
+.typewriter-box {
+  margin-top: 60px;
+  min-height: 80px;
+  display: flex; align-items: center; justify-content: center;
+}
+.typewriter {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  color: #ff9abc;
+  border-right: 3px solid #ff6b9d;
+  padding-right: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: blink 0.7s step-end infinite;
+  letter-spacing: 2px;
+}
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+/* ===== 在一起多久了 ===== */
+.counter-section {
+  margin-top: 60px;
+  text-align: center;
+  animation: fadeInUp 1.5s ease-out 0.5s both;
+}
+.counter-section .label {
+  color: rgba(255,255,255,0.6);
+  font-size: 1rem;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+}
+.counter {
+  display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+}
+.counter .num-block {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 20px 24px;
+  min-width: 80px;
+}
+.counter .num {
+  font-size: 2.5rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #ff6b9d, #ff9abc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.counter .unit { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 4px; }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 告白卡片 ===== */
+.card {
+  margin-top: 60px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 30px;
+  padding: 50px 40px;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  animation: fadeInUp 1.5s ease-out 1s both;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 60px rgba(255,107,157,0.15);
+}
+.card p {
+  color: rgba(255,255,255,0.85);
+  font-size: 1.1rem;
+  line-height: 2.2;
+  letter-spacing: 2px;
+}
+.card .highlight {
+  color: #ff6b9d;
+  font-weight: bold;
+}
+
+/* ===== 点击爱心按钮 ===== */
+.heart-btn-wrap {
+  margin-top: 50px;
+  animation: fadeInUp 1.5s ease-out 1.5s both;
+}
+.heart-btn {
+  width: 80px; height: 80px;
+  background: linear-gradient(135deg, #ff6b9d, #ff3d7f);
+  border: none; border-radius: 50%;
+  font-size: 2.2rem;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 10px 40px rgba(255,61,127,0.4);
+  display: flex; align-items: center; justify-content: center;
+  color: white;
+  position: relative;
+}
+.heart-btn:hover {
+  transform: scale(1.15);
+  box-shadow: 0 15px 50px rgba(255,61,127,0.6);
+}
+.heart-btn:active { transform: scale(0.95); }
+.heart-btn .ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  animation: ripple 0.8s ease-out forwards;
+}
+@keyframes ripple {
+  to { width: 200px; height: 200px; opacity: 0; }
+}
+.click-hint {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.85rem;
+  margin-top: 12px;
+  letter-spacing: 2px;
+}
+
+/* ===== 弹出爱心特效 ===== */
+.pop-heart {
+  position: fixed;
+  pointer-events: none;
+  z-index: 999;
+  font-size: 2rem;
+  animation: popHeart 1.5s ease-out forwards;
+}
+@keyframes popHeart {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  50% { opacity: 0.8; transform: translateY(-100px) scale(1.8); }
+  100% { opacity: 0; transform: translateY(-200px) scale(0.5); }
+}
+
+/* ===== 底部 ===== */
+.footer {
+  margin-top: 80px;
+  margin-bottom: 40px;
+  color: rgba(255,255,255,0.3);
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-align: center;
+  animation: fadeInUp 1.5s ease-out 2s both;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 480px) {
+  .counter { gap: 10px; }
+  .counter .num-block { padding: 14px 16px; min-width: 60px; }
+  .counter .num { font-size: 1.8rem; }
+  .card { padding: 30px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 星星背景 -->
+<div class="stars" id="stars"></div>
+
+<!-- 浮动爱心 -->
+<div class="hearts-container" id="heartsContainer"></div>
+
+<!-- 主内容 -->
+<main class="main-content">
+  <div class="hero">
+    <h1>李 闪</h1>
+    <div class="subtitle">—— 遇见你，是我最美丽的意外 ——</div>
+  </div>
+
+  <div class="typewriter-box">
+    <span class="typewriter" id="typewriter"></span>
+  </div>
+
+  <div class="counter-section">
+    <div class="label">💕 我们在一起</div>
+    <div class="counter">
+      <div class="num-block"><div class="num" id="days">0</div><div class="unit">天</div></div>
+      <div class="num-block"><div class="num" id="hours">0</div><div class="unit">时</div></div>
+      <div class="num-block"><div class="num" id="minutes">0</div><div class="unit">分</div></div>
+      <div class="num-block"><div class="num" id="seconds">0</div><div class="unit">秒</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p>
+      遇见你，是我这辈子<span class="highlight">最幸运</span>的事<br>
+      你的笑容，是我每天<span class="highlight">最期待</span>的风景<br>
+      有你在身边，平凡的日子也变得<span class="highlight">闪闪发光</span><br>
+      <br>
+      李闪，我想牵着你的手<br>
+      一起看遍这世界所有的美好<br>
+      <span class="highlight">你愿意吗？</span>
+    </p>
+  </div>
+
+  <div class="heart-btn-wrap">
+    <button class="heart-btn" id="heartBtn" title="点我！">💗</button>
+    <div class="click-hint">点一下试试~</div>
+  </div>
+
+  <div class="footer">
+    Made with 💖 for 李闪
+  </div>
+</main>
+
+<script>
+// ===== 生成星星 =====
+(function() {
+  const container = document.getElementById('stars');
+  const count = 150;
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 3 + 1;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.setProperty('--dur', (Math.random() * 3 + 2) + 's');
+    star.style.setProperty('--delay', Math.random() * 5 + 's');
+    container.appendChild(star);
+  }
+})();
+
+// ===== 浮动爱心 =====
+(function() {
+  const container = document.getElementById('heartsContainer');
+  const emojis = ['💕','💖','💗','💝','✨','🌸','💫','🩷'];
+  function spawn() {
+    const heart = document.createElement('span');
+    heart.className = 'floating-heart';
+    heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    heart.style.setProperty('--size', (Math.random() * 1.5 + 1) + 'rem');
+    heart.style.setProperty('--dur', (Math.random() * 6 + 8) + 's');
+    heart.style.setProperty('--delay', '0s');
+    heart.style.setProperty('--left', Math.random() * 95 + '%');
+    heart.style.setProperty('--drift', (Math.random() * 100 - 50) + 'px');
+    container.appendChild(heart);
+    setTimeout(() => heart.remove(), 15000);
+  }
+  setInterval(spawn, 600);
+  for (let i = 0; i < 8; i++) setTimeout(spawn, i * 400);
+})();
+
+// ===== 打字机效果 =====
+(function() {
+  const messages = [
+    '李闪，你是我最想留住的幸运 💫',
+    '每天醒来第一个想到的就是你 ☀️',
+    '你的笑，融化了我的整个世界 🫠',
+    '想和李闪一起看遍日出日落 🌅',
+    '李闪，你就是我的独一无二 🌟',
+  ];
+  const el = document.getElementById('typewriter');
+  let msgIdx = 0, charIdx = 0, isDeleting = false;
+
+  function tick() {
+    const current = messages[msgIdx];
+    if (isDeleting) {
+      el.textContent = current.substring(0, charIdx - 1);
+      charIdx--;
+    } else {
+      el.textContent = current.substring(0, charIdx + 1);
+      charIdx++;
+    }
+
+    let speed = isDeleting ? 40 : 100;
+
+    if (!isDeleting && charIdx === current.length) {
+      speed = 2000;
+      isDeleting = true;
+    } else if (isDeleting && charIdx === 0) {
+      isDeleting = false;
+      msgIdx = (msgIdx + 1) % messages.length;
+      speed = 400;
+    }
+
+    setTimeout(tick, speed);
+  }
+  setTimeout(tick, 1500);
+})();
+
+// ===== 在一起计时器（从今天开始，可自行修改起始日期） =====
+const START_DATE = new Date('2026-02-22'); // 94天纪念日
+
+function updateCounter() {
+  const now = new Date();
+  let diff = now - START_DATE;
+  if (diff < 0) diff = 0;
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const s = Math.floor((diff % (1000 * 60)) / 1000);
+  document.getElementById('days').textContent = d;
+  document.getElementById('hours').textContent = h;
+  document.getElementById('minutes').textContent = m;
+  document.getElementById('seconds').textContent = s;
+}
+updateCounter();
+setInterval(updateCounter, 1000);
+
+// ===== 点击爱心按钮 =====
+document.getElementById('heartBtn').addEventListener('click', function(e) {
+  // 波纹
+  const ripple = document.createElement('div');
+  ripple.className = 'ripple';
+  ripple.style.left = '50%'; ripple.style.top = '50%';
+  ripple.style.width = '0'; ripple.style.height = '0';
+  this.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 800);
+
+  // 弹出爱心
+  for (let i = 0; i < 12; i++) {
+    setTimeout(() => {
+      const heart = document.createElement('span');
+      heart.className = 'pop-heart';
+      heart.textContent = ['💖','💗','💝','💕','✨','💫','🌸'][Math.floor(Math.random()*7)];
+      heart.style.left = (e.clientX + (Math.random() * 160 - 80)) + 'px';
+      heart.style.top = (e.clientY + (Math.random() * 40 - 20)) + 'px';
+      heart.style.fontSize = (Math.random() * 1.5 + 1.2) + 'rem';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1500);
+    }, i * 50);
+  }
+});
+
+// ===== 鼠标移动光晕 =====
+document.addEventListener('mousemove', function(e) {
+  // 在鼠标附近随机生成微小光点
+  if (Math.random() > 0.7) {
+    const dot = document.createElement('span');
+    dot.className = 'pop-heart';
+    dot.textContent = '✨';
+    dot.style.left = (e.clientX + (Math.random() * 30 - 15)) + 'px';
+    dot.style.top = (e.clientY + (Math.random() * 30 - 15)) + 'px';
+    dot.style.fontSize = '0.7rem';
+    document.body.appendChild(dot);
+    setTimeout(() => dot.remove(), 1000);
+  }
+});
+
+console.log('💖 李闪，这个网站是专门为你准备的，希望你喜欢！');
+console.log('💕 每一天都更爱你一点 💕');
+</script>
+</body>
+</html>
